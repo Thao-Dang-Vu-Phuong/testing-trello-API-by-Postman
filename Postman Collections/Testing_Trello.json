@@ -371,7 +371,7 @@
 							"\r",
 							"postman.setNextRequest(\"R1-createBoard\");\r",
 							"} else {\r",
-							"    pm.environment.set(\"num_board\", 4);\r",
+							"    \r",
 							"postman.setNextRequest(\"R6-getAllBoards\");\r",
 							"}"
 						],
