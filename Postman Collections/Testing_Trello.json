@@ -443,7 +443,7 @@
 							"if (pm.response.code === 200) {\r",
 							"    const resultJson = pm.response.json();\r",
 							"    const length = resultJson.length;\r",
-							"    if (length > 0 & length < 4) {\r",
+							"    if (length > 0) {\r",
 							"       const firstBoard =  resultJson[0].id;\r",
 							"       console.log(\"Bảng thứ nhất là \" + firstBoard);\r",
 							"       pm.test(\"Dữ liệu trả về hợp lệ\", () => {\r",
