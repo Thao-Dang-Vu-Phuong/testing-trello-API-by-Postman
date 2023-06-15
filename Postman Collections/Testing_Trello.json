@@ -43,8 +43,13 @@
 							"        pm.environment.set(\"idBoard\", idBoard);\r",
 							"    })\r",
 							"}\r",
+							"let num = pm.environment.get(\"num_board\");\r",
+							"if (num === null) {\r",
 							"pm.environment.set(\"num_board\", 1);\r",
-							"postman.setNextRequest(\"R2-createToDoList\");"
+							"postman.setNextRequest(\"R2-createToDoList\");\r",
+							"} else {\r",
+							"  pm.environment.set(\"num_board\", num + 1);  \r",
+							"}"
 						],
 						"type": "text/javascript"
 					}
