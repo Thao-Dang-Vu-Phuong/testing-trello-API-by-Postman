@@ -445,7 +445,7 @@
 							"       })\r",
 							"\r",
 							"        pm.environment.set(\"firstBoard\", firstBoard);\r",
-							"        postman.setNextRequest(\"R1-createBoard\");\r",
+							"        postman.setNextRequest(\"R7-deleteBoard\");\r",
 							"    } \r",
 							"    else if (length > 4) {\r",
 							"      postman.setNextRequest(\"R7-deleteBoard\");  \r",
