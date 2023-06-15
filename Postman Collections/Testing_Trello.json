@@ -31,6 +31,7 @@
 							"    pm.test(\"Validate data body\", () => {\r",
 							"        pm.expect(resultJson).to.not.null;\r",
 							"        pm.expect(resultJson).to.not.empty;\r",
+							"        \r",
 							"    })\r",
 							"    pm.test(\"Call API tạo bảng với tên bảng đúng như mong muốn\", () => {\r",
 							"        pm.expect(resultJson.name).to.eql(pm.variables.get(\"boardName\"));\r",
@@ -48,7 +49,7 @@
 					}
 				}
 			],
-			"_postman_id": "90dab653-e01c-4340-8677-a6bfedf4462d",
+			"id": "90dab653-e01c-4340-8677-a6bfedf4462d",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -71,18 +72,15 @@
 						},
 						{
 							"key": "token",
-							"value": "{{trellotoken}}",
-							"type": "text"
+							"value": "{{trellotoken}}"
 						},
 						{
 							"key": "name",
-							"value": "{{boardName}}",
-							"type": "text"
+							"value": "{{boardName}}"
 						},
 						{
 							"key": "defaultLists",
-							"value": "false",
-							"type": "text"
+							"value": "false"
 						}
 					]
 				}
@@ -135,7 +133,7 @@
 					}
 				}
 			],
-			"_postman_id": "d875d171-a1c5-4865-bc3c-a68c7fa40443",
+			"id": "d875d171-a1c5-4865-bc3c-a68c7fa40443",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -219,7 +217,7 @@
 					}
 				}
 			],
-			"_postman_id": "9af25070-de22-4fc9-94bc-fe3e816b13a6",
+			"id": "9af25070-de22-4fc9-94bc-fe3e816b13a6",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -303,7 +301,7 @@
 					}
 				}
 			],
-			"_postman_id": "7bdc4b7c-9274-4210-a3e6-1e8caf8b3168",
+			"id": "7bdc4b7c-9274-4210-a3e6-1e8caf8b3168",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -375,7 +373,7 @@
 					}
 				}
 			],
-			"_postman_id": "569261e5-d1e8-46f5-a34e-4126edadc055",
+			"id": "569261e5-d1e8-46f5-a34e-4126edadc055",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -466,7 +464,7 @@
 					}
 				}
 			],
-			"_postman_id": "c3a4d4ff-1a21-4de7-b05b-2f59c9b13b31",
+			"id": "c3a4d4ff-1a21-4de7-b05b-2f59c9b13b31",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -535,7 +533,7 @@
 					}
 				}
 			],
-			"_postman_id": "61d4fd4d-27f9-4f4f-97ad-f97a256945f9",
+			"id": "61d4fd4d-27f9-4f4f-97ad-f97a256945f9",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -578,14 +576,13 @@
 		},
 		{
 			"name": "New Request",
-			"_postman_id": "8dad18eb-a160-4c59-8f26-1d3d798569d8",
+			"id": "8dad18eb-a160-4c59-8f26-1d3d798569d8",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
 			"request": {
 				"method": "GET",
-				"header": [],
-				"url": null
+				"header": []
 			},
 			"response": []
 		}
