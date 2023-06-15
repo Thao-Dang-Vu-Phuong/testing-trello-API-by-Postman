@@ -43,6 +43,7 @@
 							"        pm.environment.set(\"idBoard\", idBoard);\r",
 							"    })\r",
 							"}\r",
+							"pm.environment.set(\"num_board\", 1);\r",
 							"postman.setNextRequest(\"R2-createToDoList\");"
 						],
 						"type": "text/javascript"
