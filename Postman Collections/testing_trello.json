@@ -1,0 +1,621 @@
+{
+	"info": {
+		"_postman_id": "f6697fd6-7fc8-437d-a645-853b4bc80bed",
+		"name": "Funix - Lab 11 - Trello",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "R1-createBoard",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "be944d32-8365-4c7a-a548-c549d254c401",
+						"exec": [
+							"pm.environment.set(\"boardName\", \"Funix - Lab 11\");"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "f59a9ddd-ce13-430e-a14a-c8885c940de5",
+						"exec": [
+							"pm.test(\"Call API thành công với status 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"if (pm.response.code === 200) {\r",
+							"    const resultJson = pm.response.json();\r",
+							"    pm.test(\"Validate data body\", () => {\r",
+							"        pm.expect(resultJson).to.not.null;\r",
+							"        pm.expect(resultJson).to.not.empty;\r",
+							"        \r",
+							"    })\r",
+							"    pm.test(\"Call API tạo bảng với tên bảng đúng như mong muốn\", () => {\r",
+							"        pm.expect(resultJson.name).to.eql(pm.variables.get(\"boardName\"));\r",
+							"    })\r",
+							"    const idBoard = resultJson.id;\r",
+							"    pm.test(\"Id board không trống\", () => {\r",
+							"        pm.expect(idBoard).to.not.null;\r",
+							"         pm.expect(idBoard).to.not.empty;\r",
+							"        pm.environment.set(\"idBoard\", idBoard);\r",
+							"    })\r",
+							"}\r",
+							"let num = pm.environment.get(\"num_board\");\r",
+							"if (num === null) {\r",
+							"pm.environment.set(\"num_board\", 1);\r",
+							"\r",
+							"} else {\r",
+							"  pm.environment.set(\"num_board\", num + 1);  \r",
+							"}\r",
+							"postman.setNextRequest(\"R2-createToDoList\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"_postman_id": "90dab653-e01c-4340-8677-a6bfedf4462d",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{trellourl}}/1/boards?key={{trellokey}}&token={{trellotoken}}&name={{boardName}}&defaultLists=false",
+					"host": [
+						"{{trellourl}}"
+					],
+					"path": [
+						"1",
+						"boards"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{trellokey}}"
+						},
+						{
+							"key": "token",
+							"value": "{{trellotoken}}"
+						},
+						{
+							"key": "name",
+							"value": "{{boardName}}"
+						},
+						{
+							"key": "defaultLists",
+							"value": "false"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "R2-createToDoList",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "be944d32-8365-4c7a-a548-c549d254c401",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "f59a9ddd-ce13-430e-a14a-c8885c940de5",
+						"exec": [
+							"pm.test(\"Call API thành công với status 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"if (pm.response.code === 200) {\r",
+							"    const resultJson = pm.response.json();\r",
+							"    pm.test(\"Validate data body\", () => {\r",
+							"        pm.expect(resultJson).to.not.null;\r",
+							"        pm.expect(resultJson).to.not.empty;\r",
+							"    })\r",
+							"    pm.test(\"Call API tạo TODO list\", () => {\r",
+							"        pm.expect(resultJson.name).to.eql(\"TODO\");\r",
+							"    })\r",
+							"    const idToDoList = resultJson.id;\r",
+							"    pm.test(\"Id list không trống\", () => {\r",
+							"        pm.expect(idToDoList).to.not.null;\r",
+							"         pm.expect(idToDoList).to.not.empty;\r",
+							"        pm.environment.set(\"idToDoList\", idToDoList);\r",
+							"    })\r",
+							"    pm.test(\"List thuộc board đã tạo\", () => {\r",
+							"        pm.expect(resultJson.idBoard).to.eql(pm.variables.get(\"idBoard\"));\r",
+							"    })\r",
+							"}\r",
+							"postman.setNextRequest(\"R3-createDoneList\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"_postman_id": "d875d171-a1c5-4865-bc3c-a68c7fa40443",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{trellourl}}/1/lists?key={{trellokey}}&token={{trellotoken}}&name=TODO&idBoard={{idBoard}}",
+					"host": [
+						"{{trellourl}}"
+					],
+					"path": [
+						"1",
+						"lists"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{trellokey}}"
+						},
+						{
+							"key": "token",
+							"value": "{{trellotoken}}"
+						},
+						{
+							"key": "name",
+							"value": "TODO"
+						},
+						{
+							"key": "idBoard",
+							"value": "{{idBoard}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "R3-createDoneList",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "be944d32-8365-4c7a-a548-c549d254c401",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "f59a9ddd-ce13-430e-a14a-c8885c940de5",
+						"exec": [
+							"pm.test(\"Call API thành công với status 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"if (pm.response.code === 200) {\r",
+							"    const resultJson = pm.response.json();\r",
+							"    pm.test(\"Validate data body\", () => {\r",
+							"        pm.expect(resultJson).to.not.null;\r",
+							"        pm.expect(resultJson).to.not.empty;\r",
+							"    })\r",
+							"    pm.test(\"Call API tạo Done list\", () => {\r",
+							"        pm.expect(resultJson.name).to.eql(\"Done\");\r",
+							"    })\r",
+							"    const idDoneList = resultJson.id;\r",
+							"    pm.test(\"Id list không trống\", () => {\r",
+							"        pm.expect(idDoneList).to.not.null;\r",
+							"         pm.expect(idDoneList).to.not.empty;\r",
+							"        pm.environment.set(\"idDoneList\", idDoneList);\r",
+							"    })\r",
+							"    pm.test(\"List thuộc board đã tạo\", () => {\r",
+							"        pm.expect(resultJson.idBoard).to.eql(pm.variables.get(\"idBoard\"));\r",
+							"    })\r",
+							"}\r",
+							"postman.setNextRequest(\"R4-createCard\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"_postman_id": "9af25070-de22-4fc9-94bc-fe3e816b13a6",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{trellourl}}/1/lists?key={{trellokey}}&token={{trellotoken}}&name=Done&idBoard={{idBoard}}",
+					"host": [
+						"{{trellourl}}"
+					],
+					"path": [
+						"1",
+						"lists"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{trellokey}}"
+						},
+						{
+							"key": "token",
+							"value": "{{trellotoken}}"
+						},
+						{
+							"key": "name",
+							"value": "Done"
+						},
+						{
+							"key": "idBoard",
+							"value": "{{idBoard}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "R4-createCard",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "be944d32-8365-4c7a-a548-c549d254c401",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "f59a9ddd-ce13-430e-a14a-c8885c940de5",
+						"exec": [
+							"pm.test(\"Call API thành công với status 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"if (pm.response.code === 200) {\r",
+							"    const resultJson = pm.response.json();\r",
+							"    pm.test(\"Validate data body\", () => {\r",
+							"        pm.expect(resultJson).to.not.null;\r",
+							"        pm.expect(resultJson).to.not.empty;\r",
+							"    })\r",
+							"    pm.test(\"Call API tạo Card có tên như mong muốn\", () => {\r",
+							"        pm.expect(resultJson.name).to.eql(\"viết Testcase\");\r",
+							"    })\r",
+							"    const idCard = resultJson.id;\r",
+							"    pm.test(\"Id card không trống\", () => {\r",
+							"        pm.expect(idCard).to.not.null;\r",
+							"         pm.expect(idCard).to.not.empty;\r",
+							"        pm.environment.set(\"idCard\", idCard);\r",
+							"    })\r",
+							"    pm.test(\"Card thuộc Done list\", () => {\r",
+							"        pm.expect(resultJson.idList).to.eql(pm.variables.get(\"idDoneList\"));\r",
+							"    })\r",
+							"}\r",
+							"postman.setNextRequest(\"R5-moveCard\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"_postman_id": "7bdc4b7c-9274-4210-a3e6-1e8caf8b3168",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{trellourl}}/1/cards?key={{trellokey}}&token={{trellotoken}}&name=viết Testcase&idList={{idDoneList}}",
+					"host": [
+						"{{trellourl}}"
+					],
+					"path": [
+						"1",
+						"cards"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{trellokey}}"
+						},
+						{
+							"key": "token",
+							"value": "{{trellotoken}}"
+						},
+						{
+							"key": "name",
+							"value": "viết Testcase"
+						},
+						{
+							"key": "idList",
+							"value": "{{idDoneList}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "R5-moveCard",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "be944d32-8365-4c7a-a548-c549d254c401",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "f59a9ddd-ce13-430e-a14a-c8885c940de5",
+						"exec": [
+							"pm.test(\"Call API thành công với status 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"let number = pm.environment.get(\"num_board\");\r",
+							"if (number < 4) {\r",
+							"\r",
+							"postman.setNextRequest(\"R1-createBoard\");\r",
+							"} else {\r",
+							"    \r",
+							"postman.setNextRequest(\"R6-getAllBoards\");\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"_postman_id": "569261e5-d1e8-46f5-a34e-4126edadc055",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{trellourl}}/1/cards/{{idCard}}?key={{trellokey}}&token={{trellotoken}}&idList={{idToDoList}}",
+					"host": [
+						"{{trellourl}}"
+					],
+					"path": [
+						"1",
+						"cards",
+						"{{idCard}}"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{trellokey}}"
+						},
+						{
+							"key": "token",
+							"value": "{{trellotoken}}"
+						},
+						{
+							"key": "name",
+							"value": "viết Testcase",
+							"disabled": true
+						},
+						{
+							"key": "idList",
+							"value": "{{idToDoList}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "R6-getAllBoards",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "be944d32-8365-4c7a-a548-c549d254c401",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "f59a9ddd-ce13-430e-a14a-c8885c940de5",
+						"exec": [
+							"pm.test(\"Call API thành công với status 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"if (pm.response.code === 200) {\r",
+							"    const resultJson = pm.response.json();\r",
+							"    const length = resultJson.length;\r",
+							"    if (length > 0) {\r",
+							"       const firstBoard =  resultJson[0].id;\r",
+							"       console.log(\"Bảng thứ nhất là \" + firstBoard);\r",
+							"       pm.test(\"Dữ liệu trả về hợp lệ\", () => {\r",
+							"           pm.expect(firstBoard).to.not.null;\r",
+							"       })\r",
+							"\r",
+							"        pm.environment.set(\"firstBoard\", firstBoard);\r",
+							"        postman.setNextRequest(\"R7-deleteBoard\");\r",
+							"    } \r",
+							"\r",
+							"    else{\r",
+							"        console.log(\"Kết thúc workflow\");\r",
+							"        pm.environment.set(\"firstBoard\", null);\r",
+							"        \r",
+							"        pm.environment.set(\"idCard\", null);\r",
+							"        pm.environment.set(\"idDoneList\", null);\r",
+							"        pm.environment.set(\"idToDoList\", null);\r",
+							"        pm.environment.set(\"idBoard\", null);\r",
+							"        pm.environment.set(\"num_board\", null);\r",
+							"        postman.setNextRequest(null);\r",
+							"    }\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"_postman_id": "c3a4d4ff-1a21-4de7-b05b-2f59c9b13b31",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{trellourl}}/1/members/{{username}}/boards?key={{trellokey}}&token={{trellotoken}}",
+					"host": [
+						"{{trellourl}}"
+					],
+					"path": [
+						"1",
+						"members",
+						"{{username}}",
+						"boards"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{trellokey}}"
+						},
+						{
+							"key": "token",
+							"value": "{{trellotoken}}"
+						},
+						{
+							"key": "name",
+							"value": "viết Testcase",
+							"disabled": true
+						},
+						{
+							"key": "idList",
+							"value": "{{idToDoList}}",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "R7-deleteBoard",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "be944d32-8365-4c7a-a548-c549d254c401",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "f59a9ddd-ce13-430e-a14a-c8885c940de5",
+						"exec": [
+							"pm.test(\"Call API thành công với status 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"postman.setNextRequest(\"R6-getAllBoards\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"_postman_id": "61d4fd4d-27f9-4f4f-97ad-f97a256945f9",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{trellourl}}/1/boards/{{firstBoard}}?key={{trellokey}}&token={{trellotoken}}",
+					"host": [
+						"{{trellourl}}"
+					],
+					"path": [
+						"1",
+						"boards",
+						"{{firstBoard}}"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{trellokey}}"
+						},
+						{
+							"key": "token",
+							"value": "{{trellotoken}}"
+						},
+						{
+							"key": "name",
+							"value": "viết Testcase",
+							"disabled": true
+						},
+						{
+							"key": "idList",
+							"value": "{{idToDoList}}",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New Request",
+			"_postman_id": "8dad18eb-a160-4c59-8f26-1d3d798569d8",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "0f55aa0d-e16f-44a5-8828-88c848c67a81",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "96f709b7-c1a5-4630-980d-2535b38cf421",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
